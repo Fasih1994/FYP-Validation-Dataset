@@ -1,0 +1,17 @@
+install this library after installing python
+pip install opencv-contrib-python
+
+run the file with:
+python main.py
+
+
+
+change letter and save the file with ctrl+s then run the file.
+give the appropariate gesture in the bounding-box then 
+press 'c' to capture image
+after capturing a few image of this gesture with different background 
+press 'q' to exit 
+
+change the letter and repeate the process.
+
+
