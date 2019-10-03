@@ -8,10 +8,11 @@ example_img_path = 'example.png'
 example_img = cv2.imread(example_img_path)
 example_img = cv2.resize(example_img,(height,width),interpolation=cv2.INTER_NEAREST)
 
-### ----------------------- type the letter for which you are making the gasture-------------------//////////////
+### ----------------------- type the letter for which you are making the gesture-------------------//////////////
 base_path = 'data'
-letter = 'q'
-img_path  = os.path.join(base_path,letter)
+name= 'Ahmed'
+letter = 'y'
+img_path  = os.path.join(base_path,name,letter)
 
 start_point = ((height//2) - (size//2),(width//2) - (size//2))
 end_point = (start_point[0]+size,start_point[1]+size)
