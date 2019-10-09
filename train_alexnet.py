@@ -10,6 +10,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.optimizers import SGD
 from imutils import paths
 import argparse
+import os
 
 
 ap = argparse.ArgumentParser()
@@ -39,6 +40,8 @@ print('[INFO] training network...')
 
 callback = [ModelCheckpoint('alexnet_no_aug.weights', monitor='val_loss',
                             save_best_only=True, save_weights_only=True, verbose=1)]
+if os.path.exists('alexnet_no_aug.weights'):
+    model.load_weights("alexnet_no_aug.weights")
 model.fit(trainX, trainY,
           validation_data=(testX, testY),
           batch_size=64, epochs=args['epochs'],

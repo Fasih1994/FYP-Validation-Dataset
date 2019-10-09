@@ -45,6 +45,8 @@ print('[INFO] training network...')
 callbacks = [ModelCheckpoint('alexnet_with_aug.weights', monitor='val_loss',
                             save_best_only=True, save_weights_only=True, verbose=1),
             TrainingMonitor("{}.png".format(os.getpid()))]
+if os.path.exists('alexnet_with_aug.weights'):
+    model.load_weights('alexnet_with_aug.weights')
 model.fit_generator(aug.flow(trainX, trainY, batch_size=64),
                     steps_per_epoch=len(trainX)//64,
                     epochs=args['epochs'], verbose=1, callbacks=callbacks,
