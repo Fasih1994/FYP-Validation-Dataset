@@ -15,6 +15,7 @@ import argparse
 ap = argparse.ArgumentParser()
 ap.add_argument('-d', '--dataset', required=True,
                 help='Path to dataset')
+ap.add_argument('-e', '--epochs', type=int, default=30)
 args = vars(ap.parse_args())
 
 imagePaths = list(paths.list_images(args['dataset']))
@@ -40,7 +41,7 @@ callback = [ModelCheckpoint('alexnet_no_aug.weights', monitor='val_loss',
                             save_best_only=True, save_weights_only=True, verbose=1)]
 model.fit(trainX, trainY,
           validation_data=(testX, testY),
-          batch_size=64, epochs=30,
+          batch_size=64, epochs=args['epochs'],
           callbacks=callback, verbose=1)
 
 print('[INFO] evaluating model...')
