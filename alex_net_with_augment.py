@@ -36,17 +36,18 @@ aug = ImageDataGenerator(width_shift_range=0.2,
 
 print('[INFO] compiling network....')
 model = AlexNet.build(227, 227, 3, len(le.classes_))
+if os.path.exists('alexnet_with_aug.h5'):
+    model.load_weights('alexnet_with_aug.h5')
 opt = Adam(lr=0.001)
 
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
 print('[INFO] training network...')
 
-callbacks = [ModelCheckpoint('alexnet_with_aug.weights', monitor='val_loss',
+callbacks = [ModelCheckpoint('alexnet_with_aug.h5', monitor='val_loss',
                             save_best_only=True, save_weights_only=True, verbose=1),
             TrainingMonitor("{}.png".format(os.getpid()))]
-if os.path.exists('alexnet_with_aug.weights'):
-    model.load_weights('alexnet_with_aug.weights')
+
 model.fit_generator(aug.flow(trainX, trainY, batch_size=64),
                     steps_per_epoch=len(trainX)//64,
                     epochs=args['epochs'], verbose=1, callbacks=callbacks,

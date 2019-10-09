@@ -32,16 +32,16 @@ labels = le.fit_transform(labels)
 
 print('[INFO] compiling network....')
 model = AlexNet.build(227, 227, 3, len(le.classes_))
+if os.path.exists('alexnet_no_aug.h5'):
+    model.load_weights("alexnet_no_aug.h5")
 opt = SGD(lr=0.001)
 
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
 print('[INFO] training network...')
 
-callback = [ModelCheckpoint('alexnet_no_aug.weights', monitor='val_loss',
+callback = [ModelCheckpoint('alexnet_no_aug.h5', monitor='val_loss',
                             save_best_only=True, save_weights_only=True, verbose=1)]
-if os.path.exists('alexnet_no_aug.weights'):
-    model.load_weights("alexnet_no_aug.weights")
 model.fit(trainX, trainY,
           validation_data=(testX, testY),
           batch_size=64, epochs=args['epochs'],
