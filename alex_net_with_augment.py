@@ -31,7 +31,7 @@ labels = le.fit_transform(labels)
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.25, random_state=42)
 
 aug = ImageDataGenerator(rotation_range=10, width_shift_range=0.2,
-                         height_shift_range=0.2, brightness_range=[0.2,1.0], shear_range=0.2,
+                         height_shift_range=0.2, brightness_range=[0.2, 1.0], shear_range=0.2,
                          fill_mode='nearest')
 
 print('[INFO] compiling network....')
@@ -42,7 +42,7 @@ model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy
 
 print('[INFO] training network...')
 
-callbacks = [ModelCheckpoint('alexnet.weights', monitor='val_loss',
+callbacks = [ModelCheckpoint('alexnet_with_aug.weights', monitor='val_loss',
                             save_best_only=True, save_weights_only=True, verbose=1),
             TrainingMonitor("{}.png".format(os.getpid()))]
 model.fit_generator(aug.flow(trainX, trainY, batch_size=64),

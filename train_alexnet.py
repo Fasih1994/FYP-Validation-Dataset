@@ -36,11 +36,11 @@ model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy
 
 print('[INFO] training network...')
 
-callback = [ModelCheckpoint('alexnet.model', monitor='val_loss',
-                            save_best_only=True, verbose=1)]
+callback = [ModelCheckpoint('alexnet_no_aug.weights', monitor='val_loss',
+                            save_best_only=True, save_weights_only=True, verbose=1)]
 model.fit(trainX, trainY,
           validation_data=(testX, testY),
-          batch_size=64, epochs=50,
+          batch_size=64, epochs=30,
           callbacks=callback, verbose=1)
 
 print('[INFO] evaluating model...')
