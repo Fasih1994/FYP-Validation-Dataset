@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelBinarizer
 from pyimagesearch.nn.conv import MiniVGGNet
 from keras.callbacks import ModelCheckpoint
-from keras.optimizers import SGD
+from keras.optimizers import Adam
 from imutils import paths
 import argparse
 import os
@@ -30,13 +30,13 @@ labels = le.fit_transform(labels)
 
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.25, random_state=42)
 
-aug = ImageDataGenerator(rotation_range=10, width_shift_range=0.2,
-                         height_shift_range=0.2, brightness_range=[0.2, 1.0], shear_range=0.2,
-                         fill_mode='nearest')
+aug = ImageDataGenerator(width_shift_range=0.2,
+                         height_shift_range=0.2, brightness_range=[0.2, 1.0],
+                         fill_mode='nearest', horizontal_flip=True)
 
 print('[INFO] compiling network....')
 model = MiniVGGNet.build(227, 227, 3, len(le.classes_))
-opt = SGD(lr=0.001)
+opt = Adam(lr=0.001)
 
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
