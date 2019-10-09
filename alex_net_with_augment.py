@@ -6,7 +6,7 @@ from pyimagesearch.dataset import SimpleDatasetLoader
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelBinarizer
-from pyimagesearch.nn.conv import MiniVGGNet
+from pyimagesearch.nn.conv import AlexNet
 from keras.callbacks import ModelCheckpoint
 from keras.optimizers import Adam
 from imutils import paths
@@ -35,7 +35,7 @@ aug = ImageDataGenerator(width_shift_range=0.2,
                          fill_mode='nearest', horizontal_flip=True)
 
 print('[INFO] compiling network....')
-model = MiniVGGNet.build(227, 227, 3, len(le.classes_))
+model = AlexNet.build(227, 227, 3, len(le.classes_))
 opt = Adam(lr=0.001)
 
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])

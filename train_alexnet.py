@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import confusion_matrix
-from pyimagesearch.nn.conv import MiniVGGNet
+from pyimagesearch.nn.conv import AlexNet
 from keras.callbacks import ModelCheckpoint
 from keras.optimizers import SGD
 from imutils import paths
@@ -29,7 +29,7 @@ labels = le.fit_transform(labels)
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.25, random_state=42)
 
 print('[INFO] compiling network....')
-model = MiniVGGNet.build(227, 227, 3, len(le.classes_))
+model = AlexNet.build(227, 227, 3, len(le.classes_))
 opt = SGD(lr=0.001)
 
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
