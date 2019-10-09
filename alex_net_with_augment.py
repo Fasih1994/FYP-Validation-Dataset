@@ -1,5 +1,6 @@
 from pyimagesearch.preprocessing import AspectAwarePreprocessor
 from pyimagesearch.preprocessing import ImageToArrayPreprocessor
+from pyimagesearch.callbacks import TrainingMonitor
 from keras.preprocessing.image import ImageDataGenerator
 from pyimagesearch.dataset import SimpleDatasetLoader
 from sklearn.model_selection import train_test_split
@@ -10,7 +11,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.optimizers import SGD
 from imutils import paths
 import argparse
-
+import os
 ap = argparse.ArgumentParser()
 ap.add_argument('-d', '--dataset', required=True,
                 help='Path to dataset')
@@ -40,7 +41,8 @@ model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy
 print('[INFO] training network...')
 
 callback = [ModelCheckpoint('alexnet.model', monitor='val_loss',
-                            save_best_only=True, save_weights_only=True, verbose=1)]
+                            save_best_only=True, save_weights_only=True, verbose=1),
+            TrainingMonitor("{}.png".format(os.getpid()))]
 model.fit_generator(aug.flow(trainX, trainY, batch_size=64),
                     steps_per_epoch=len(trainX)//64,
                     epochs=30, verbose=1,
