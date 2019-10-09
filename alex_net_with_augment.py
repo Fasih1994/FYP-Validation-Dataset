@@ -15,6 +15,8 @@ import os
 ap = argparse.ArgumentParser()
 ap.add_argument('-d', '--dataset', required=True,
                 help='Path to dataset')
+ap.add_argument('-e', '--epochs', type=int, default=30,
+                help='Number of epochs ')
 args = vars(ap.parse_args())
 
 imagePaths = list(paths.list_images(args['dataset']))
@@ -45,7 +47,7 @@ callbacks = [ModelCheckpoint('alexnet.weights', monitor='val_loss',
             TrainingMonitor("{}.png".format(os.getpid()))]
 model.fit_generator(aug.flow(trainX, trainY, batch_size=64),
                     steps_per_epoch=len(trainX)//64,
-                    epochs=30, verbose=1, callbacks=callbacks,
+                    epochs=args['epochs'], verbose=1, callbacks=callbacks,
                     validation_data=(testX, testY))
 
 print('[INFO] evaluating model...')
