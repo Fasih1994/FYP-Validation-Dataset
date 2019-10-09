@@ -4,12 +4,13 @@ from pyimagesearch.dataset import SimpleDatasetLoader
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelBinarizer
+from sklearn.metrics import confusion_matrix
 from pyimagesearch.nn.conv import MiniVGGNet
-from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint
+from keras.optimizers import SGD
 from imutils import paths
 import argparse
-import os
+
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-d', '--dataset', required=True,
@@ -35,10 +36,9 @@ model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy
 
 print('[INFO] training network...')
 
-callback = [ModelCheckpoint('lenet.model', monitor='val_loss',
+callback = [ModelCheckpoint('alexnet.model', monitor='val_loss',
                             save_best_only=True, verbose=1)]
 model.fit(trainX, trainY,
-          steps_per_epoch=len(trainX)//64,
           validation_data=(testX, testY),
           batch_size=64, epochs=50,
           callbacks=callback, verbose=1)
@@ -48,3 +48,4 @@ preds = model.predict(testX, batch_size=64)
 print(classification_report(testY.argmax(axis=1),
                             preds.argmax(axis=1),
                             target_names=le.classes_))
+print(confusion_matrix(testY.argmax(axis=1), preds.argmax(axis=1)))
